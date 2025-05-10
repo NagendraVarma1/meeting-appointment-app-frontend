@@ -5,6 +5,10 @@ import axios from "axios";
 const Slots = () => {
   const [showForm, setShowForm] = useState(false);
   const [slotTime, setSlotTime] = useState(null);
+  const [firstSlot, setFirstSlot] = useState(null)
+  const [secondSlot, setSecondSlot] = useState(null)
+  const [thirdSlot, setThirdSlot] = useState(null)
+  const [fourthSlot, setFourthSlot] = useState(null)
   const [render, setRender] = useState(true);
   const [clients, setClients] = useState([]);
   const nameInputRef = useRef();
@@ -59,6 +63,21 @@ const Slots = () => {
     axios
       .get("http://localhost:5000/get-all-schedules")
       .then((res) => {
+        const slotData = res.data.allSlotsData
+        slotData.forEach((data) => {
+          if(data.slotTime === '9:00 A.M'){
+            setFirstSlot(data.availableSlots)
+          }
+          else if(data.slotTime === '10:00 A.M'){
+            setSecondSlot(data.availableSlots)
+          }
+          else if(data.slotTime === '11:00 A.M'){
+            setThirdSlot(data.availableSlots)
+          }
+          else{
+            setFourthSlot(data.availableSlots)
+          }
+        })
         setClients(res.data.allSchedules);
         setRender(false);
       })
@@ -76,21 +95,21 @@ const Slots = () => {
     <div>
       <h1 className={classes.heading1}>Available Slots</h1>
       <div className={classes.slotsDiv}>
-        <div className={classes.slot} onClick={() => slotHandler("9:00 A.M")}>
+        <div className={firstSlot !== 0 ? classes.slot : classes.hideSlot} onClick={() => slotHandler("9:00 A.M")}>
           <h3>Slot Timing: 9:00 A.M</h3>
-          <p>Available Slots : 4</p>
+          <p>Available Slots : {firstSlot}</p>
         </div>
-        <div className={classes.slot} onClick={() => slotHandler("10:00 A.M")}>
+        <div className={secondSlot !== 0 ? classes.slot : classes.hideSlot} onClick={() => slotHandler("10:00 A.M")}>
           <h3>Slot Timing: 10:00 A.M</h3>
-          <p>Available Slots : 4</p>
+          <p>Available Slots : {secondSlot}</p>
         </div>
-        <div className={classes.slot} onClick={() => slotHandler("11:00 A.M")}>
+        <div className={thirdSlot !== 0 ? classes.slot : classes.hideSlot} onClick={() => slotHandler("11:00 A.M")}>
           <h3>Slot Timing: 11:00 A.M</h3>
-          <p>Available Slots : 4</p>
+          <p>Available Slots : {thirdSlot}</p>
         </div>
-        <div className={classes.slot} onClick={() => slotHandler("12:00 P.M")}>
+        <div className={fourthSlot !== 0 ? classes.slot : classes.hideSlot} onClick={() => slotHandler("12:00 P.M")}>
           <h3>Slot Timing: 12:00 P.M</h3>
-          <p>Available Slots : 4</p>
+          <p>Available Slots : {fourthSlot}</p>
         </div>
       </div>
       <form
@@ -126,7 +145,7 @@ const Slots = () => {
             </p>
             <p>
               <span className={classes.span}>Slot Time: </span>
-              {client.slot}
+              {client.slotTime}
             </p>
             <p>
               <span className={classes.span}>Meeting Link: </span>
