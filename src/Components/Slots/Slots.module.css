@@ -33,6 +33,7 @@
     margin-top: 50px;
     text-align: center;
     border-radius: 15px;
+    position: relative;
 }
 
 .hideForm{
@@ -69,7 +70,7 @@ input{
     display: grid;
     width: 60%;
     margin-left: 20%;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto;
     row-gap: 10px;
     column-gap: 10px;
 }
@@ -91,4 +92,21 @@ input{
     font-size:medium;
     border-radius: 5px;
     text-wrap: wrap;
+}
+
+.span{
+    font-weight: bold;
+}
+
+.clear{
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    right: 10px;
+    top: -10px
+}
+
+.clear:hover{
+    background-color: rgb(252, 34, 34);
 }
